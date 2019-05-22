@@ -1,0 +1,3 @@
+class PlayerGOT::Character 
+
+end 

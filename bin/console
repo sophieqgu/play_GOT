@@ -12,5 +12,3 @@ require "play_GOT"
 
 require "irb"
 IRB.start(__FILE__)
-
-PlayGOT::CLI.new.call 
