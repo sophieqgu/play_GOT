@@ -7,4 +7,8 @@ class PlayGOT::Player < PlayGOT::Character
     @name = gets.strip
   end 
   
+  def choose_house
+    input = gets.strip
+    @house = House.find(input)
+  end 
 end 
