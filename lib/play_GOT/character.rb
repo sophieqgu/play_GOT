@@ -1,3 +1,3 @@
-class PlayerGOT::Character 
+class PlayGOT::Character 
 
 end 
