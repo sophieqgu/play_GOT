@@ -1,14 +1,13 @@
 class PlayGOT::House 
   attr_accessor :name, :region, :words, :titles, :ancestral_weapons
   @@all = []
+  @@chosen = {}
   
-  def initialize
-    PlayGOT::API.new.each do |house_attributes|
-      house_attributes.each do |k, v|
-        self.send("#{k}=", v)
-      end 
-      @@all << self 
+  def initialize(house_attributes)
+    house_attributes.each do |k, v|
+      self.send("#{k}=", v)
     end 
+    @@all << self 
   end 
   
   def self.all 
@@ -19,11 +18,11 @@ class PlayGOT::House
     self.all.each.with_index(1) do |h, i|
       puts "#{i} - #{h.name}"
     end 
-    binding.pry 
   end 
   
   def self.find(i)
-    self.all[i - 1]
+    @@chosen = self.all[i.to_i - 1]
+    puts "You've chosen the #{@@chosen.name}."
   end 
   
 end 
