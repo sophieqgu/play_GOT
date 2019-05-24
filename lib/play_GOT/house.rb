@@ -16,13 +16,12 @@ class PlayGOT::House
 
   def self.list_all
     self.all.each.with_index(1) do |h, i|
-      puts "#{i} - #{h.name}"
+      puts "#{i} - #{h.name}".light_blue
     end 
   end 
   
   def self.find(i)
     @@chosen = self.all[i.to_i - 1]
-    puts "You've chosen the #{@@chosen.name}."
   end 
   
 end 

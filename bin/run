@@ -2,4 +2,4 @@
 
 require_relative "../config/environment"
 
-PlayGOT::CLI.new.call
+PlayGOT::CLI.new.start
