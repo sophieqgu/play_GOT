@@ -71,7 +71,23 @@ class PlayGOT::Player
     else 
       puts "\nYou've destroyed all your enemies. The Throne is yours!"
     end 
-    
-    
   end 
+  
+  def find_ally
+    puts "Who do you want to turn to your side?".light_red
+    
+    @enemies.each.with_index(1) do |e, i|
+      puts "#{i} - #{e.name}".blue
+    end 
+    
+    input = gets.strip.to_i
+    
+    if (1..@enemies.size).to_a.include?(input)
+      chosen = @enemies[input - 1]
+      puts "You are about to approach the #{chosen.name.light_green}. Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Your current chance of success is #{@loyalty.to_s.light_green}%."
+    else
+      puts "You've spoken something mystical that I don't understand.".light_red
+      find_ally
+    end 
+  end    
 end 

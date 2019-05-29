@@ -67,6 +67,9 @@ class PlayGOT::CLI
     when "2"
       @you.status
       continue 
+    when "3"
+      @you.find_ally
+      continue
     when "6"
       exit
     else   
