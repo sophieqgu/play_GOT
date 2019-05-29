@@ -37,12 +37,8 @@ class PlayGOT::CLI
     confirm = gets.upcase.strip
       
     if confirm == "Y" || confirm == "YES"
-      puts "Congratulations. You are now Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
-      puts "\nWhen you are ready, press any key to continue.".light_red
-      
-      input = gets.strip
-      
-      rules
+      puts "Glorious is your name #{@you.name.light_green}, Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
+      continue 
     else 
       choose_house
     end 
