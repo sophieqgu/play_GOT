@@ -9,19 +9,18 @@ class PlayGOT::CLI
     PlayGOT::API.new.create_houses
     
     choose_house 
-    
   end 
   
   def initiate_player
     puts "Who are you, stranger?".light_red
+    
     @you = PlayGOT::Player.new 
+    
     puts "Welcome, #{@you.name.light_green}, to the land of Westeros."
   end 
   
   def choose_house
-    puts "Choose your allegience and accept your destiny.".light_red
-    
-    PlayGOT::House.list_all
+    puts "Your destiny awaits. Lo and behold.".light_red
     
     @you.choose_house
     
@@ -32,8 +31,10 @@ class PlayGOT::CLI
     puts "\nAre you sure about your choice? Type Y or YES to continue or anything else to choose again.".light_red
     confirm = gets.upcase.strip
       
-    until confirm == "Y" || confirm == "YES" do
-      self.choose_house
+    if confirm == "Y" || confirm == "YES"
+      puts "Congratulations. You are now Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
+    else 
+      choose_house
     end 
   end 
       
