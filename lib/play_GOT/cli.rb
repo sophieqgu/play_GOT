@@ -38,6 +38,11 @@ class PlayGOT::CLI
       
     if confirm == "Y" || confirm == "YES"
       puts "Congratulations. You are now Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
+      puts "\nWhen you are ready, press any key to continue.".light_red
+      
+      input = gets.strip
+      
+      rules
     else 
       choose_house
     end 
@@ -50,28 +55,36 @@ class PlayGOT::CLI
     puts "Your #{'stamina'.light_green} determines your base rate of surviving the Winter. Each additional ally adds another 10 percent chance."
     puts "Your #{'tactic'.light_green} determines your base rate of successful fleeing when confronting an enemy."
     puts "Your #{'loyalty'.light_green} determines your base rate of winning over an ally."
-    puts "\nWhen you are ready, press any key to continue.".light_red
     
-    input = gets.strip
-    
-    menu
   end 
   
   def menu 
     puts "What do you want to do?".light_red
-    puts "1 - Read the rules again.\n2 - View your current stats.\n3 - Go find an ally.\n4 - Go attack an enemy.\n5 - Read about secret weapons.\n6 - Exit the game"
+    puts "1 - Read the rules again.\n2 - View your current status.\n3 - Go find an ally.\n4 - Go attack an enemy.\n5 - Read about secret weapons.\n6 - Exit the game"
     
     input = gets.strip 
     
     case input 
     when "1" 
       rules 
+      continue
+    when "2"
+      @you.status
+      continue 
     when "6"
       exit
     else   
       puts "You've spoken something mystical that I don't understand.".light_red
       menu
     end 
+  end 
+  
+  def continue
+    puts "\nWhen you are ready, press any key to continue.".light_red
+    
+    input = gets.strip
+    
+    menu
   end 
   
   def exit 
