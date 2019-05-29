@@ -1,7 +1,5 @@
-require_relative "./character.rb"
-
-class PlayGOT::Player < PlayGOT::Character 
-  attr_accessor :name, :allies, :enemies, :secret_weapons 
+class PlayGOT::Player 
+  attr_accessor :name, :house, :secret_weapons, :stamina, :tactic, :loyalty, :allies, :enemies 
   
   def initialize
     @name = gets.strip
@@ -15,12 +13,40 @@ class PlayGOT::Player < PlayGOT::Character
     
     if (1..PlayGOT::House.all.size).to_a.include?(input)
       @house = PlayGOT::House.find(input)
-      @stamina = 0
-      @tactic = 0
-      @loyalty = 0
       @secret_weapons = @house.ancestral_weapons
       @allies = []
       @enemies = PlayGOT::House.all - [@house]
+      
+      case @house.name 
+        when "House Hightower of the Hightower"
+          @stamina = 20 
+          @tactic = 45
+          @loyalty = 35
+        when "House Lannister of Casterly Rock"
+          @stamina = 20
+          @tactic = 75
+          @loyalty = 5
+        when "House Mormont of Bear Island"
+          @stamina = 20
+          @tactic = 25 
+          @loyalty = 55
+        when "House Royce of Runestone"
+          @stamina = 25
+          @tactic = 60
+          @loyalty = 15
+        when "House Stark of Winterfell"
+          @stamina = 25
+          @tactic = 10
+          @loyalty = 65
+        when "House Targaryen of King's Landing"
+          @stamina = 70
+          @tactic = 5
+          @loyalty = 25
+        when "House Tarly of Horn Hill"
+          @stamina = 25
+          @tactic = 25
+          @loyalty = 50
+        end 
     else 
       puts "You've spoken something mystical that I don't understand.".light_red
       choose_house
@@ -28,7 +54,7 @@ class PlayGOT::Player < PlayGOT::Character
   end 
   
   def status 
-    puts "Your name is #{self.name.light_green}, Lord of the #{@house.name.light_green}."
+    puts "Your name is #{@name.light_green}, Lord of the #{@house.name.light_green}."
     puts "You possess #{@secret_weapons.join(" and ").light_green}, ancestral weapons from your House and your allies."
     puts "Your stats are: [stamina: #{@stamina.to_s.light_green}, tactic: #{@tactic.to_s.light_green}, loyalty: #{@loyalty.to_s.light_green}]."
     

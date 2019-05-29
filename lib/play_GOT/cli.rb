@@ -48,15 +48,15 @@ class PlayGOT::CLI
     puts "\nTo win the Game of Thrones you must do the following: "
     puts "1 - Survive the Winter that sweeps through Westeros randomly.".blue
     puts "2 - Conquer all your enemies or turn them into your allies. ".blue
-    puts "Your #{'stamina'.light_green} determines your base rate of surviving the Winter. Each additional ally adds another 10 percent chance."
-    puts "Your #{'tactic'.light_green} determines your base rate of successful fleeing when confronting an enemy."
-    puts "Your #{'loyalty'.light_green} determines your base rate of winning over an ally."
+    puts "Your #{'stamina'.light_green} determines your base rate of surviving the Winter. Each additional ally adds another 10 percent chance of survival."
+    puts "Your #{'tactic'.light_green} determines your base rate of successful fleeing from an enemy. Some secret weapons may increase your chance of success."
+    puts "Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Some secret weapons may increase your chance of persuasion."
     
   end 
   
   def menu 
     puts "What do you want to do?".light_red
-    puts "1 - Read the rules again.\n2 - View your current status.\n3 - Go find an ally.\n4 - Go attack an enemy.\n5 - Read about secret weapons.\n6 - Exit the game"
+    puts "1 - Read the rules of the game.\n2 - View your current status.\n3 - Go find an ally.\n4 - Go attack an enemy.\n5 - Read about secret weapons.\n6 - Exit the game."
     
     input = gets.strip 
     
