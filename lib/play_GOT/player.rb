@@ -1,5 +1,5 @@
 class PlayGOT::Player 
-  attr_accessor :name, :house, :secret_weapons, :stamina, :tactic, :loyalty, :allies, :enemies 
+  attr_accessor :name, :house, :secret_weapons, :stamina, :tactic, :loyalty, :allies, :enemies, :chosen 
   
   def initialize
     @name = gets.strip
@@ -14,48 +14,42 @@ class PlayGOT::Player
     if (1..PlayGOT::House.all.size).to_a.include?(input)
       @house = PlayGOT::House.find(input)
       @secret_weapons = @house.ancestral_weapons
+      @stamina = 60 
+      @tactic = 50
+      @loyalty = 40
       @allies = []
       @enemies = PlayGOT::House.all - [@house]
       
       case @house.name 
         when "House Hightower of the Hightower"
-          @stamina = 20 
-          @tactic = 45
-          @loyalty = 35
+          @tactic += 5
+          @loyalty += 5
         when "House Lannister of Casterly Rock"
-          @stamina = 20
-          @tactic = 75
-          @loyalty = 5
+          @tactic += 10
         when "House Mormont of Bear Island"
-          @stamina = 20
-          @tactic = 25 
-          @loyalty = 55
+          @stamina += 5
+          @loyalty += 5
         when "House Royce of Runestone"
-          @stamina = 25
-          @tactic = 60
-          @loyalty = 15
+          @stamina += 5
+          @tactic += 5
         when "House Stark of Winterfell"
-          @stamina = 25
-          @tactic = 10
-          @loyalty = 65
+          @loyalty += 10
         when "House Targaryen of King's Landing"
-          @stamina = 70
-          @tactic = 5
-          @loyalty = 25
+          @stamina += 10
         when "House Tarly of Horn Hill"
-          @stamina = 25
-          @tactic = 25
-          @loyalty = 50
+          @tactic += 5
+          @loyalty += 5
         end 
     else 
       puts "You've spoken something mystical that I don't understand.".light_red
+      
       choose_house
     end 
   end 
   
   def status 
     puts "Your name is #{@name.light_green}, Lord of the #{@house.name.light_green}."
-    puts "You possess #{@secret_weapons.join(" and ").light_green}, ancestral weapons from your House and your allies."
+    puts "You possess #{@secret_weapons.join(" and ").light_green}, ancestral weapon from your House and your allies."
     puts "Your stats are: [stamina: #{@stamina.to_s.light_green}, tactic: #{@tactic.to_s.light_green}, loyalty: #{@loyalty.to_s.light_green}]."
     
     if @allies.size > 0 
@@ -83,11 +77,76 @@ class PlayGOT::Player
     input = gets.strip.to_i
     
     if (1..@enemies.size).to_a.include?(input)
-      chosen = @enemies[input - 1]
-      puts "You are about to approach the #{chosen.name.light_green}. Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Your current chance of success is #{@loyalty.to_s.light_green}%."
+      @chosen = @enemies[input - 1]
+      
+      puts "You are about to approach the #{@chosen.name.light_green}. Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Your current chance of success is #{@loyalty.to_s.light_green}%. Ready to roll the dice?"
+      
+      continue 
+      
+      roll_dice = rand(100)
+      
+      if roll_dice < @loyalty
+        puts "LUCK IS ON YOUR SIDE, #{@name.light_green}. You've made a new ally, #{@chosen.name.light_green}."
+        
+        @loyalty += 10
+        @allies << @chosen
+        @enemies.delete(@chosen)
+        @secret_weapons << @chosen.ancestral_weapons
+  
+        puts "Your #{'loyalty'.light_green} now increases to #{@loyalty.to_s.light_green}%. You've gained weapon #{@chosen.ancestral_weapons.join(" and ").light_green}. You have one less enemy."
+      else 
+        fight_or_flee
+      end 
     else
       puts "You've spoken something mystical that I don't understand.".light_red
+      
       find_ally
     end 
   end    
+  
+  def fight_or_flee
+    puts "TOO LATE! #{@chosen.name.light_green} has prepared to attack. Are you ready to fight? Or you can try to flee."
+    puts "1 - fight\n2 - flee".blue
+        
+    input = gets.strip
+        
+    case input 
+    when "1"
+      fight 
+    when "2"
+      flee 
+    else 
+      puts "You've spoken something mystical that I don't understand.".light_red
+      
+      fight_or_flee
+    end 
+  end 
+  
+  def fight 
+    puts "The fight has begun."
+  end 
+  
+  def flee 
+    puts "Your #{'tactic'.light_green} determines your base rate of fleeing from an enemy. Your current chance of success is #{@tactic.to_s.light_green}%. Ready to roll the dice?"
+    
+    continue 
+    
+    roll_dice = rand(100)
+    
+    if roll_dice < @tactic
+      puts "THAT WAS CLOSE! You've dodged a spear. Now lay low and make your way back to the camp."
+    else 
+      puts "AMBUSH! You've got no way to go. #{@house.words.light_green}. Fight in the name of your House!"
+      
+      continue 
+      
+      fight 
+    end 
+  end 
+ 
+  def continue
+    puts "\nWhen you are ready, press any key to continue.".light_red
+    
+    input = gets.strip
+  end  
 end 

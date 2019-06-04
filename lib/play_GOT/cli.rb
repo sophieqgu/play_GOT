@@ -37,7 +37,8 @@ class PlayGOT::CLI
     confirm = gets.upcase.strip
       
     if confirm == "Y" || confirm == "YES"
-      puts "Glorious is your name #{@you.name.light_green}, Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
+      puts "Glory to your name #{@you.name.light_green}, Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
+      
       continue 
     else 
       choose_house
@@ -49,7 +50,7 @@ class PlayGOT::CLI
     puts "1 - Survive the Winter that sweeps through Westeros randomly.".blue
     puts "2 - Conquer all your enemies or turn them into your allies. ".blue
     puts "Your #{'stamina'.light_green} determines your base rate of surviving the Winter. Each additional ally adds another 10 percent chance of survival."
-    puts "Your #{'tactic'.light_green} determines your base rate of successful fleeing from an enemy. Some secret weapons may increase your chance of success."
+    puts "Your #{'tactic'.light_green} determines your base rate of fleeing from an enemy. Some secret weapons may increase your chance of success."
     puts "Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Some secret weapons may increase your chance of persuasion."
     
   end 
@@ -63,17 +64,21 @@ class PlayGOT::CLI
     case input 
     when "1" 
       rules 
+     
       continue
     when "2"
       @you.status
+     
       continue 
     when "3"
       @you.find_ally
+      
       continue
     when "6"
       exit
     else   
       puts "You've spoken something mystical that I don't understand.".light_red
+      
       menu
     end 
   end 
