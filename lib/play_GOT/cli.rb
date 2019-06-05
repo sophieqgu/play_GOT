@@ -71,7 +71,23 @@ class PlayGOT::CLI
      
       continue 
     when "3"
-      @you.find_ally
+      
+      @you.select_enemy
+      
+      @you.make_ally
+      
+      continue
+      
+    when "4"
+      
+      @you.select_enemy
+      
+      @you.fight
+      
+      continue
+      
+    when "5"
+      puts "The module is being secretly developed. Coming soon!"
       
       continue
     when "6"

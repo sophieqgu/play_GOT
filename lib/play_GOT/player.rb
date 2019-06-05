@@ -1,5 +1,5 @@
 class PlayGOT::Player 
-  attr_accessor :name, :house, :secret_weapons, :stamina, :tactic, :loyalty, :allies, :enemies, :chosen 
+  attr_accessor :name, :house, :secret_weapons, :stamina, :tactic, :loyalty, :allies, :defeated, :enemies, :chosen 
   
   def initialize
     @name = gets.strip
@@ -18,7 +18,9 @@ class PlayGOT::Player
       @tactic = 25
       @loyalty = 25
       @allies = []
+      @defeated = []
       @enemies = PlayGOT::House.all - [@house]
+      
       
       case @house.name 
       when "House Hightower of the Hightower"
@@ -62,6 +64,11 @@ class PlayGOT::Player
       puts "\nYou currently have no allies. Go and make one."
     end 
     
+    if @defeated.size > 0 
+      defeated = @defeated.collect {|d| d.name}
+      puts "\nYou have defeated: #{defeated.join(", ").light_green}."
+    end 
+    
     if @enemies.size > 0 
       enemies = @enemies.collect {|e| e.name}
       puts "\nYour current enemies are: #{enemies.join(", ").light_green}. Conquer all of them or turn them into your allies."
@@ -70,8 +77,9 @@ class PlayGOT::Player
     end 
   end 
   
-  def find_ally
-    puts "Who do you want to turn to your side?".light_red
+  
+  def select_enemy
+    puts "Who's on your mind?".light_red
     
     @enemies.each.with_index(1) do |e, i|
       puts "#{i} - #{e.name}".blue
@@ -81,7 +89,14 @@ class PlayGOT::Player
     
     if (1..@enemies.size).to_a.include?(input)
       @chosen = @enemies[input - 1]
+    else
+      puts "You've spoken something mystical that I don't understand.".light_red
       
+      select_enemy
+    end 
+  end 
+  
+  def make_ally
       puts "You are about to approach the #{@chosen.name.light_green}. Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Your current chance of success is #{@loyalty.to_s.light_green}%. Ready to roll the dice?"
       
       continue 
@@ -100,11 +115,6 @@ class PlayGOT::Player
       else 
         fight_or_flee
       end 
-    else
-      puts "You've spoken something mystical that I don't understand.".light_red
-      
-      find_ally
-    end 
   end    
   
   def fight_or_flee
@@ -132,6 +142,8 @@ class PlayGOT::Player
     
     if game.your_score == 3 
       puts "Congratulations! You've defeated #{@chosen.name.light_green}. Your men are singing your name. You are one step closer to the Throne!"
+      
+      @defeated << @chosen 
       
       @enemies.delete(@chosen)
     else 
