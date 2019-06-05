@@ -15,6 +15,7 @@ class PlayGOT::CLI
     menu
   end 
   
+  
   def initiate_player
     puts "Who are you, stranger?".light_red
     
@@ -23,27 +24,26 @@ class PlayGOT::CLI
     puts "Welcome, #{@you.name.light_green}, to the land of Westeros."
   end 
   
+  
   def choose_house
     puts "Your destiny awaits. Lo and behold.".light_red
     
     @you.choose_house
     
     puts "You've chosen the #{@you.house.name.light_green}. Great and glorious it is.\n'#{@you.house.words.light_green}' it chants.\nIn #{@you.house.region.gsub("The", "the").light_green} it resides."
-    
     puts "No one doubts it for being the #{@you.house.titles.join(", ").light_green}.\nLet #{@you.house.ancestral_weapons.join(" and ").light_green} be your secret weapon."
-    
     puts "\nAre you sure about your choice? Type Y or YES to continue or anything else to choose again.".light_red
     
     confirm = gets.upcase.strip
       
     if confirm == "Y" || confirm == "YES"
       puts "Glory to your name #{@you.name.light_green}, Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
-      
       continue 
     else 
       choose_house
     end 
   end 
+     
       
   def rules 
     puts "\nTo win the Game of Thrones you must do the following: "
@@ -52,8 +52,8 @@ class PlayGOT::CLI
     puts "Your #{'stamina'.light_green} determines your base rate of surviving the Winter. Each additional ally adds another 10 percent chance of survival."
     puts "Your #{'tactic'.light_green} determines your base rate of fleeing from an enemy. Some secret weapons may increase your chance of success."
     puts "Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Some secret weapons may increase your chance of persuasion."
-    
   end 
+  
   
   def menu 
     puts "What do you want to do?".light_red
@@ -64,48 +64,38 @@ class PlayGOT::CLI
     case input 
     when "1" 
       rules 
-     
       continue
     when "2"
       @you.status
-     
       continue 
     when "3"
-      
       @you.select_enemy
-      
       @you.make_ally
-      
       continue
-      
     when "4"
-      
       @you.select_enemy
-      
       @you.fight
-      
       continue
-      
     when "5"
       puts "The module is being secretly developed. Coming soon!"
-      
       continue
     when "6"
       exit
     else   
       puts "You've spoken something mystical that I don't understand.".light_red
-      
       menu
     end 
   end 
   
+  
   def continue
     puts "\nWhen you are ready, press any key to continue.".light_red
-    
+   
     input = gets.strip
     
     menu
   end 
+  
   
   def exit 
     puts "Are you sure you want to leave? Type Y or YES to confirm or anything else to go back to the menu.".light_red

@@ -5,6 +5,7 @@ class PlayGOT::API
     @response = JSON.parse(RestClient.get(url))
   end 
   
+  
   def create_houses
     @response.each do |house|
       house_attributes = {
