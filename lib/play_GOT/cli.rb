@@ -93,7 +93,22 @@ class PlayGOT::CLI
    
     input = gets.strip
     
-    menu
+    if @you.enemies.size > 0
+      menu
+    else 
+      win 
+    end 
+  end 
+  
+  
+  def win 
+    puts "All hail your Grace, #{@you.name.light_green} of #{@you.house.name.light_green}, First of Your Name, King of the Andals and the First Men, Lord of the Six Kingdoms, and Protector of the Realm."
+    
+    puts "\nWesteros is yours. May your rule long and prosperous. May your name last forever like the sun."
+    
+    puts "\nUntil next time.\n".light_red
+    
+    exit!
   end 
   
   

@@ -16,13 +16,17 @@ class PlayGOT::RockPaperScissors
       if @your_move == "Rock" && @enemy_move == "Scissors" || @your_move == "Paper" && @enemy_move == "rock" || @your_move == "Scissors" && @enemy_move == "Paper"
         @your_score += 1 
         puts "You win!\nYour Score: #{@your_score.to_s.light_green}\nEnemy Score:#{@enemy_score.to_s.light_green}"
+      
       elsif @your_move == @enemy_move 
         puts "Draw! No point is awarded."
+      
       else 
         @enemy_score += 1 
         puts "You lose!\nYour Score: #{your_score.to_s.light_green}\nEnemy Score:#{enemy_score.to_s.light_green}"
       end 
+      
       @round += 1 
+    
     end 
   end 
   
