@@ -14,32 +14,35 @@ class PlayGOT::Player
     if (1..PlayGOT::House.all.size).to_a.include?(input)
       @house = PlayGOT::House.find(input)
       @secret_weapons = @house.ancestral_weapons
-      @stamina = 60 
-      @tactic = 50
-      @loyalty = 40
+      @stamina = 50 
+      @tactic = 25
+      @loyalty = 25
       @allies = []
       @enemies = PlayGOT::House.all - [@house]
       
       case @house.name 
-        when "House Hightower of the Hightower"
-          @tactic += 5
-          @loyalty += 5
-        when "House Lannister of Casterly Rock"
-          @tactic += 10
-        when "House Mormont of Bear Island"
-          @stamina += 5
-          @loyalty += 5
-        when "House Royce of Runestone"
-          @stamina += 5
-          @tactic += 5
-        when "House Stark of Winterfell"
-          @loyalty += 10
-        when "House Targaryen of King's Landing"
-          @stamina += 10
-        when "House Tarly of Horn Hill"
-          @tactic += 5
-          @loyalty += 5
-        end 
+      when "House Hightower of the Hightower"
+        @tactic += 10
+      when "House Lannister of Casterly Rock"
+        @stamina -= 5
+        @tactic += 15
+      when "House Mormont of Bear Island"
+        @stamina += 5
+        @tactic -= 5 
+        @loyalty += 10
+      when "House Royce of Runestone"
+        @stamina += 5
+        @tactic += 5
+      when "House Stark of Winterfell"
+        @tactic -= 5
+        @loyalty += 15
+      when "House Targaryen of King's Landing"
+        @stamina += 15
+        @loyalty -= 5 
+      when "House Tarly of Horn Hill"
+        @tactic += 5
+        @loyalty += 5
+      end 
     else 
       puts "You've spoken something mystical that I don't understand.".light_red
       
@@ -117,13 +120,25 @@ class PlayGOT::Player
       flee 
     else 
       puts "You've spoken something mystical that I don't understand.".light_red
-      
+     
       fight_or_flee
     end 
   end 
   
   def fight 
-    puts "The fight has begun."
+    puts "You are going into battle with #{@chosen.name.light_green}. Rally your soldiers!"
+    
+    game = PlayGOT::RockPaperScissors.new 
+    
+    if game.your_score == 3 
+      puts "Congratulations! You've defeated #{@chosen.name.light_green}. Your men are singing your name. You are one step closer to the Throne!"
+      
+      @enemies.delete(@chosen)
+    else 
+      puts "You lost in the battle with #{@chosen.name.light_green}. You body may rest but legends never die. See you next time in the Game of Thrones."
+      
+      exit!
+    end 
   end 
   
   def flee 
@@ -136,7 +151,7 @@ class PlayGOT::Player
     if roll_dice < @tactic
       puts "THAT WAS CLOSE! You've dodged a spear. Now lay low and make your way back to the camp."
     else 
-      puts "AMBUSH! You've got no way to go. #{@house.words.light_green}. Fight in the name of your House!"
+      puts "AMBUSH! You are cornered. Your enemies are close.\nFight is your only way out. Fight in the name of your House!"
       
       continue 
       
