@@ -49,9 +49,9 @@ class PlayGOT::CLI
     puts "\nTo win the Game of Thrones you must do the following: "
     puts "1 - Survive the Winter that sweeps through Westeros randomly.".blue
     puts "2 - Conquer all your enemies or turn them into your allies. ".blue
-    puts "Your #{'stamina'.light_green} determines your base rate of surviving the Winter. Each additional ally adds another 10 percent chance of survival."
-    puts "Your #{'tactic'.light_green} determines your base rate of fleeing from an enemy. Some secret weapons may increase your chance of success."
-    puts "Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Some secret weapons may increase your chance of persuasion."
+    puts "Your #{'stamina'.light_green} determines your probability of surviving the Winter. Each additional ally adds another 5 percent chance of survival."
+    puts "Your #{'tactic'.light_green} determines your probability of fleeing from an enemy. Some secret weapons may increase your chance of success."
+    puts "Your #{'loyalty'.light_green} determines your probability of winning over an ally. Some secret weapons may increase your chance of persuasion."
   end 
   
   
@@ -104,7 +104,7 @@ class PlayGOT::CLI
   def win 
     puts "All hail your Grace, #{@you.name.light_green} of #{@you.house.name.light_green}, First of Your Name, King of the Andals and the First Men, Lord of the Six Kingdoms, and Protector of the Realm."
     
-    puts "\nWesteros is yours. May your rule long and prosperous. May your name last forever like the sun."
+    puts "\nWesteros is yours. May your rule long and prosperous, and your name last forever like the sun.".blue
     
     puts "\nUntil next time.\n".light_red
     

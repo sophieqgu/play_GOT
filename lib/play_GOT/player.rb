@@ -16,8 +16,8 @@ class PlayGOT::Player
       @house = PlayGOT::House.find(input)
       @secret_weapons = @house.ancestral_weapons
       @stamina = 50 
-      @tactic = 25
-      @loyalty = 25
+      @tactic = 50
+      @loyalty = 50
       @allies = []
       @defeated = []
       @enemies = PlayGOT::House.all - [@house]
@@ -54,14 +54,14 @@ class PlayGOT::Player
   
   def status 
     puts "Your name is #{@name.light_green}, Lord of the #{@house.name.light_green}."
-    puts "You possess #{@secret_weapons.join(" and ").light_green}, ancestral weapon from your House and your allies."
+    puts "You possess #{@secret_weapons.join(", ").light_green}, ancestral weapon from your House and your allies."
     puts "Your stats are: [stamina: #{@stamina.to_s.light_green}, tactic: #{@tactic.to_s.light_green}, loyalty: #{@loyalty.to_s.light_green}]."
     
     if @allies.size > 0 
       allies = @allies.collect {|a| a.name}
       puts "\nYour current allies are: #{allies.join(", ").light_green}."
     else 
-      puts "\nYou currently have no allies. Go and make one."
+      puts "\nYou currently have no allies. Go and make one.".blue
     end 
     
     if @defeated.size > 0 
@@ -73,7 +73,7 @@ class PlayGOT::Player
       enemies = @enemies.collect {|e| e.name}
       puts "\nYour current enemies are: #{enemies.join(", ").light_green}. Conquer all of them or turn them into your allies."
     else 
-      puts "\nYou've destroyed all your enemies. The Throne is yours!"
+      puts "\nYou've destroyed all your enemies. The Throne is yours!".blue
     end 
   end 
   
@@ -97,7 +97,7 @@ class PlayGOT::Player
   
   
   def make_ally
-    puts "You are about to approach the #{@chosen.name.light_green}. Your #{'loyalty'.light_green} determines your base rate of winning over an ally. Your current chance of success is #{@loyalty.to_s.light_green}%. Ready to roll the dice?"
+    puts "You are about to approach the #{@chosen.name.light_green}. Your #{'loyalty'.light_green} determines your probability of winning over an ally. Your current chance of success is #{@loyalty.to_s.light_green}%. Ready to roll the dice?"
     
     continue 
     
@@ -106,12 +106,12 @@ class PlayGOT::Player
     if roll_dice < @loyalty
       puts "LUCK IS ON YOUR SIDE, #{@name.light_green}. You've made a new ally, #{@chosen.name.light_green}."
       
-      @loyalty += 10
+      @stamina += 5
       @allies << @chosen
       @enemies.delete(@chosen)
       @secret_weapons << @chosen.ancestral_weapons
 
-      puts "Your #{'loyalty'.light_green} now increases to #{@loyalty.to_s.light_green}%. You've gained weapon #{@chosen.ancestral_weapons.join(" and ").light_green}. You have one less enemy."
+      puts "Your #{'stamina'.light_green} now increases to #{@stamina.to_s.light_green}%. You've gained weapon #{@chosen.ancestral_weapons.join(" and ").light_green}. You have one less enemy."
     else 
       fight_or_flee
     end 
@@ -146,14 +146,14 @@ class PlayGOT::Player
       @defeated << @chosen 
       @enemies.delete(@chosen)
     else 
-      puts "You lost in the battle with #{@chosen.name.light_green}. You body may rest but legends never die. See you next time in the Game of Thrones."
-      exit!
+      @stamina -= 5
+      puts "You lost in the battle with #{@chosen.name.light_green}. Your #{"stamina".light_green} now decreases to #{@stamina.to_s.light_green}%."
     end 
   end 
   
   
   def flee 
-    puts "Your #{'tactic'.light_green} determines your base rate of fleeing from an enemy. Your current chance of success is #{@tactic.to_s.light_green}%. Ready to roll the dice?"
+    puts "Your #{'tactic'.light_green} determines your probability of fleeing from an enemy. Your current chance of success is #{@tactic.to_s.light_green}%. Ready to roll the dice?"
     
     continue 
     
@@ -170,7 +170,28 @@ class PlayGOT::Player
     end 
   end 
  
- 
+  
+  def survive_winter 
+    continue
+    
+    puts "Winter is coming. He brings the storm. Your #{'stamina'.light_green} determines your probability of surviving the Winter. Your current chance of success is #{@stamina.to_s.light_green}%. Can you survive the night?"
+    
+    continue
+    
+    roll_dice = rand(100)
+    
+    if roll_dice < @stamina
+      puts "YOU'VE MADE IT. He retreated. Now stay safe. CONSTANT VIGILANCE!"
+    else 
+      puts "Snow buried you. Your men brought you back to #{@house.region.gsub("The", "the").light_green}. You people say, 'Brave as #{@name.light_green}, Lord of the #{@house.name.light_green}. He's the only one who fought the Night.'" 
+      
+      puts "\nNever forget what you are, for surely the world will not. See you next time in the Game of Thrones.\n".light_red
+      
+      exit!
+    end 
+  end 
+    
+   
   def continue
     puts "\nWhen you are ready, press any key to continue.".light_red
     
