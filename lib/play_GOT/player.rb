@@ -172,20 +172,24 @@ class PlayGOT::Player
  
   
   def survive_winter 
-    continue
+    puts "Winter is coming. He brings the storm. When the snows fall and the white winds blow, Nothing burns like the cold.\n"
     
-    puts "Winter is coming. He brings the storm. Your #{'stamina'.light_green} determines your probability of surviving the Winter. Your current chance of success is #{@stamina.to_s.light_green}%. Can you survive the night?"
+    puts "\nEvery man must die. But first he must live.\n".blue
+    
+    puts "Your #{'stamina'.light_green} determines your probability of surviving the Winter. Your current chance of success is #{@stamina.to_s.light_green}%. Can you survive the night?"
     
     continue
     
     roll_dice = rand(100)
     
     if roll_dice < @stamina
-      puts "YOU'VE MADE IT. He retreated. Now stay safe. CONSTANT VIGILANCE!"
+      puts "YOU'VE MADE IT. He retreated. Now stay safe. CONSTANT VIGILANCE!\n".blue
     else 
-      puts "Snow buried you. Your men brought you back to #{@house.region.gsub("The", "the").light_green}. You people say, 'Brave as #{@name.light_green}, Lord of the #{@house.name.light_green}. He's the only one who fought the Night.'" 
+      puts "He is too powerful. You cannot withstand.\n" 
       
-      puts "\nNever forget what you are, for surely the world will not. See you next time in the Game of Thrones.\n".light_red
+      puts "\nYour men brought you back to #{@house.region.gsub("The", "the").light_green}. You people say, 'Brave as #{@name.light_green}, Lord of the #{@house.name.light_green}. He's the only one who has fought the Night.'" 
+      
+      puts "\nNever forget what you are, for surely the world will not. See you next time in the Game of Thrones.\n".blue
       
       exit!
     end 

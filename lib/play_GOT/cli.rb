@@ -1,5 +1,5 @@
 class PlayGOT::CLI 
-  attr_accessor :you
+  attr_accessor :you, :turn
   
   def start
     puts "When you play the Game of Thrones, you win or you die."
@@ -10,9 +10,8 @@ class PlayGOT::CLI
     
     choose_house 
     
-    rules 
-    
-    menu
+    @turn = 0 
+    continue 
   end 
   
   
@@ -38,7 +37,6 @@ class PlayGOT::CLI
       
     if confirm == "Y" || confirm == "YES"
       puts "Glory to your name #{@you.name.light_green}, Lord of the #{@you.house.name.light_green}. Winter is coming and the night is long. It's time to gather your soldiers."
-      continue 
     else 
       choose_house
     end 
@@ -49,13 +47,19 @@ class PlayGOT::CLI
     puts "\nTo win the Game of Thrones you must do the following: "
     puts "1 - Survive the Winter that sweeps through Westeros randomly.".blue
     puts "2 - Conquer all your enemies or turn them into your allies. ".blue
-    puts "Your #{'stamina'.light_green} determines your probability of surviving the Winter. Each additional ally adds another 5 percent chance of survival."
+    puts "Your #{'stamina'.light_green} determines your probability of surviving the Winter. Each additional ally adds another 5 percent chance of survival. Each lost battle decreases 5 percent."
     puts "Your #{'tactic'.light_green} determines your probability of fleeing from an enemy. Some secret weapons may increase your chance of success."
     puts "Your #{'loyalty'.light_green} determines your probability of winning over an ally. Some secret weapons may increase your chance of persuasion."
   end 
   
   
   def menu 
+    @turn += 1 
+    
+    if @turn % 5 == 0 
+      @you.survive_winter
+    end 
+    
     puts "What do you want to do?".light_red
     puts "1 - Read the rules of the game.\n2 - View your current status.\n3 - Go find an ally.\n4 - Go attack an enemy.\n5 - Read about secret weapons.\n6 - Exit the game."
     
@@ -104,7 +108,7 @@ class PlayGOT::CLI
   def win 
     puts "All hail your Grace, #{@you.name.light_green} of #{@you.house.name.light_green}, First of Your Name, King of the Andals and the First Men, Lord of the Six Kingdoms, and Protector of the Realm."
     
-    puts "\nWesteros is yours. May your rule long and prosperous, and your name last forever like the sun.".blue
+    puts "\nWesteros is yours. May your rule long and prosperous, and your name remembered forever.".blue
     
     puts "\nUntil next time.\n".light_red
     
