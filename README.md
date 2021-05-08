@@ -1,8 +1,31 @@
 # PlayGOT
 
 This is a simple CLI role-playing game based on the popular HBO series Game of Thrones. Select your own House, find your allies, conquer your enemies, and claim secret weapons along the way to help you take the throne! 
+<img src="./GoT-demo-start.gif" alt="GoT-demo-start">
 
-Write your own GOT legend today.
+To win the Game of Thrones, one must:
+```
+1. Survive the Winter that sweeps through Westeros randomly.
+2. Conquer all your enemies or turn them into your allies.
+```
+Some basic stats will influence one’s chances of winning, including:
+```
+stamina - % probability of surviving the Winter (a random event)
+tactic - % probability of fleeing from an enemy
+loyalty - % probability of getting an ally 
+```
+**Turning everyone into allies will be the quickest way to win.** Each additional ally increases your stamina by 5 percent. However, making allies also has risks. A failed negotiation might trigger a fight. And a lost fight will decrease stamina by 5 percent.
+
+Of course, you are given a chance to escape before a fight begins. Your tactic is your chance of successfully fleeing from an enemy.
+
+Fight is a simple game of Rock, Paper, Scissors. Best 3 out of 5. The winner takes over the loser’s Secret Weapon and gets one step closer to the throne.
+Winter is a random event. Surviving it, you will continue the game. Otherwise, the game is over.
+
+Secret Weapons are wild cards, each serving a unique, unspoken purpose.
+<img src="./GoT-demo-win.gif" alt="GoT-demo-win">
+
+## Demo
+For a longer demo of the game, visit: https://sophieqgu.medium.com/play-got-a-cli-game-based-on-the-game-of-thrones-ruby-ab15c9193d37
 
 ## Installation
 
